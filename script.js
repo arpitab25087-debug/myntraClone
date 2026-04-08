@@ -1,5 +1,5 @@
 let products = [];
-let fav = [];
+let fav = JSON.parse(localStorage.getItem("fav")) || [];
 
 // fetch data
 async function getData() {
@@ -12,6 +12,7 @@ async function getData() {
 
 getData();
 
+// display function
 function display(arr) {
   let container = document.getElementById("products");
   container.innerHTML = "";
@@ -85,4 +86,15 @@ document.getElementById("sort").addEventListener("change", function() {
   }
 
   display(sorted);
+});
+
+// show favorites
+document.getElementById("showFav").addEventListener("click", function() {
+
+  if (fav.length === 0) {
+    alert("No favorites added");
+  } else {
+    display(fav);
+  }
+
 });
