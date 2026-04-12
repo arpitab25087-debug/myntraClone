@@ -1,18 +1,20 @@
 let products = [];
 let fav = JSON.parse(localStorage.getItem("fav")) || [];
 
-// fetch data
 async function getData() {
-  let res = await fetch("https://fakestoreapi.com/products");
-  let data = await res.json();
+  try {
+    let res = await fetch("https://dummyjson.com/products");
+    let data = await res.json();
 
-  products = data;
-  display(products);
+    products = data.products;
+    display(products);
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 getData();
 
-// display function
 function display(arr) {
   let container = document.getElementById("products");
   container.innerHTML = "";
@@ -22,13 +24,14 @@ function display(arr) {
     div.className = "card";
 
     let img = document.createElement("img");
-    img.src = item.image;
+    img.src = item.thumbnail;
 
     let title = document.createElement("p");
     title.innerText = item.title;
 
     let price = document.createElement("h4");
     price.innerText = "₹ " + item.price;
+    price.className = "price";
 
     let btn = document.createElement("button");
     btn.innerText = "♡";
@@ -57,13 +60,13 @@ document.getElementById("search").addEventListener("input", function() {
 
 // filter
 document.getElementById("filter").addEventListener("change", function() {
-  let category = this.value;
+  let value = this.value;
 
-  if (category === "all") {
+  if (value === "all") {
     display(products);
   } else {
     let result = products.filter(function(item) {
-      return item.category === category;
+      return item.category.toLowerCase().includes(value);
     });
 
     display(result);
@@ -90,11 +93,9 @@ document.getElementById("sort").addEventListener("change", function() {
 
 // show favorites
 document.getElementById("showFav").addEventListener("click", function() {
-
   if (fav.length === 0) {
     alert("No favorites added");
   } else {
     display(fav);
   }
-
 });
