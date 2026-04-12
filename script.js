@@ -31,7 +31,7 @@ function display(arr) {
     price.innerText = "₹ " + item.price;
 
     let btn = document.createElement("button");
-    btn.innerText = "Add to Fav";
+    btn.innerText = "♡";
 
     btn.addEventListener("click", function() {
       fav.push(item);
